@@ -59,6 +59,14 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ github.ref_name }}
-        files: ${{ steps.finddll.outputs.dllpath }}
+        files: |
+          Release/DirectML.dll
+          Release/OnnxDet.dll
+          Release/onnxruntime.dll
+          Release/onnxruntime_providers_shared.dll
+          x64/Release/DirectML.dll
+          x64/Release/OnnxDet.dll
+          x64/Release/onnxruntime.dll
+          x64/Release/onnxruntime_providers_shared.dll
       env:
-        GITHUB_TOKEN: ${{ secrets.COMPLIE }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
