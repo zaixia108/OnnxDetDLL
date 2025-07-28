@@ -1,8 +1,9 @@
-name: Windows 自动编译 DLL
+name: Windows 自动编译 DLL（MSBuild）
 
 on:
   release:
     branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -24,19 +25,17 @@ jobs:
         nuget install Microsoft.ML.OnnxRuntime.DirectML -Version 1.22.1 -OutputDirectory $env:GITHUB_WORKSPACE/nuget_pkgs
       shell: powershell
 
-    - name: 配置 CMake
-      run: |
-        cmake -S . -B build `
-          -DOpenCV_DIR="C:/tools/opencv/build" `
-          -DONNXRUNTIME_DIR="${{ github.workspace }}/nuget_pkgs/Microsoft.ML.OnnxRuntime.DirectML.1.22.1/runtimes/win-x64/native"
-      shell: powershell
+    - name: 设置 MSBuild
+      uses: microsoft/setup-msbuild@v2
 
-    - name: 编译 DLL
-      run: cmake --build build --config Release
-      shell: powershell
+    - name: 用 MSBuild 编译
+      run: msbuild OnnxDetDLL.sln /p:Configuration=Release /m
+      shell: cmd
 
     - name: 上传编译产物
       uses: actions/upload-artifact@v4
       with:
         name: dll-artifacts
-        path: build/Release/*.dll
+        path: |
+          **/Release/*.dll
+          **/x64/Release/*.dll
