@@ -28,7 +28,11 @@ jobs:
     - name: 设置 MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    - name: 用 MSBuild 编译
+    - name: 还原 NuGet 包
+      run: nuget restore OnnxDet.sln
+      shell: cmd
+
+    - name: 编译项目
       run: msbuild OnnxDet.sln /p:Configuration=Release /m
       shell: cmd
 
