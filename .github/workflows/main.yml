@@ -58,13 +58,9 @@ jobs:
       with:
         tag_name: ${{ github.ref_name }}
         files: |
-          Release/DirectML.dll
-          Release/OnnxDet.dll
-          Release/onnxruntime.dll
-          Release/onnxruntime_providers_shared.dll
-          x64/Release/DirectML.dll
-          x64/Release/OnnxDet.dll
-          x64/Release/onnxruntime.dll
-          x64/Release/onnxruntime_providers_shared.dll
+             **/DirectML.dll
+             **/OnnxDet.dll
+             **/onnxruntime.dll
+             **/onnxruntime_providers_shared.dll
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
