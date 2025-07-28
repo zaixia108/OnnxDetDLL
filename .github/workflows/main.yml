@@ -36,10 +36,29 @@ jobs:
       run: msbuild OnnxDet.sln /p:Configuration=Release /m
       shell: cmd
 
-    - name: 上传编译产物
-      uses: actions/upload-artifact@v4
+    - name: 查找 DLL 路径
+      id: finddll
+      run: |
+        for /r %%f in (*.dll) do (
+          echo ::set-output name=dllpath::%%f
+          exit /b 0
+        )
+      shell: cmd
+    
+    - name: 创建 Release
+      uses: softprops/action-gh-release@v2
       with:
-        name: dll-artifacts
-        path: |
-          **/Release/*.dll
-          **/x64/Release/*.dll
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: 上传 DLL 到 Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ github.ref_name }}
+        files: ${{ steps.finddll.outputs.dllpath }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
