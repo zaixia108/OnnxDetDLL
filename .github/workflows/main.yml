@@ -1,8 +1,6 @@
 name: Windows 自动编译 DLL（MSBuild）
 
 on:
-  release:
-    branches: master
   workflow_dispatch:
 
 jobs:
