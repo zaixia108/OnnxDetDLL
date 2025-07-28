@@ -15,7 +15,7 @@ extern "C" {
     ONNXDET_API void DestroyDetector(void* detector);
 
     // ³õÊ¼»¯¼ì²âÆ÷
-    ONNXDET_API bool InitDetector(void* detector, const char* model_path, float conf_threshold, float iou_threshold);
+    ONNXDET_API bool InitDetector(void* detector, const char* model_path, float conf_threshold, float iou_threshold, bool use_dml);
 
     // Ö´ÐÐ¼ì²â
     ONNXDET_API bool Detect(void* detector, unsigned char* image_data, int width, int height, int channels,

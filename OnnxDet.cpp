@@ -15,14 +15,16 @@ class OnnxDet {
 public:
     OnnxDet() = default;
 
-    void Init(const std::string& path, double confThres = 0.3, double iouThres = 0.5) {
+    void Init(const std::string& path, double confThres = 0.3, double iouThres = 0.5, bool use_dml = true) {
         conf_threshold = confThres;
         iou_threshold = iouThres;
 
         // 初始化ONNX运行时
         Ort::SessionOptions session_options;
         session_options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
-        session_options.AppendExecutionProvider("DmlExecutionProvider");
+        if (use_dml) {
+            session_options.AppendExecutionProvider("DmlExecutionProvider");
+        }
         env = Ort::Env(ORT_LOGGING_LEVEL_WARNING, "Detect");
 
         std::wstring wpath(path.begin(), path.end());
@@ -291,11 +293,11 @@ extern "C" {
         }
     }
 
-    ONNXDET_API bool InitDetector(void* detector, const char* model_path, float conf_threshold, float iou_threshold) {
+    ONNXDET_API bool InitDetector(void* detector, const char* model_path, float conf_threshold, float iou_threshold, bool use_dml = true) {
         if (!detector || !model_path) return false;
 
         try {
-            static_cast<OnnxDet*>(detector)->Init(model_path, conf_threshold, iou_threshold);
+            static_cast<OnnxDet*>(detector)->Init(model_path, conf_threshold, iou_threshold, use_dml);
             return true;
         }
         catch (const std::exception& e) {
