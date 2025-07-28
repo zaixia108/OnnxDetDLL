@@ -1,9 +1,7 @@
 name: Windows 自动编译 DLL
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
+  release:
     branches: [ main, master ]
 
 jobs:
