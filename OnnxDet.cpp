@@ -215,7 +215,7 @@ private:
             // 找出最高类别分数
             float max_class_score = 0;
             int max_class_id = 0;
-            for (int j = 0; j < num_classes - 1; ++j) {
+            for (int j = 0; j < num_classes; ++j) {
                 float class_score = anchor_data[4 + j];
                 if (class_score > max_class_score) {
                     max_class_score = class_score;
