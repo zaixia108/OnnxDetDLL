@@ -1,0 +1,32 @@
+[package]
+name = "onnxdet"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "onnxdet"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# ONNX Runtime bindings - simplified version without automatic download
+# Users need to set ORT_LIB_LOCATION or install ONNX Runtime system-wide
+ort = { version = "2.0.0-rc.9", default-features = false, features = ["std"] }
+
+# Image processing
+image = "0.25"
+imageproc = "0.25"
+
+# Python bindings
+pyo3 = { version = "0.23", features = ["extension-module"] }
+numpy = "0.23"
+
+# NDArray for working with tensors
+ndarray = "0.16"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "2.0"
+
+[profile.release]
+opt-level = 3
+lto = true
