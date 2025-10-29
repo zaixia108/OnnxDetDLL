@@ -16,7 +16,20 @@ This is a Rust translation of the original C++ OnnxDetDLL project.
 - ✅ 可配置的置信度和IoU阈值 / Configurable confidence and IoU thresholds
 - ✅ 跨平台支持 / Cross-platform support (Windows, Linux, macOS)
 
-## 系统要求 Requirements
+## 文档 Documentation
+
+- [English README](README.md) - This file
+- [中文文档](README_CN.md) - Complete Chinese documentation
+- [Migration Guide](MIGRATION.md) - Guide for migrating from C++ version
+- [Development Guide](DEVELOPMENT.md) - For contributors and developers
+
+## 快速链接 Quick Links
+
+- 🇨🇳 [查看中文文档](README_CN.md) - Complete documentation in Chinese
+- 📖 [查看迁移指南](MIGRATION.md) - How to migrate from C++ version  
+- 👨‍💻 [开发者指南](DEVELOPMENT.md) - Contributing and development
+
+---
 
 ### 构建环境 For Building
 
