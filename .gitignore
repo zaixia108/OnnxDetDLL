@@ -361,3 +361,23 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Rust
+/target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# Python
+*.so
+*.pyd
+*.egg-info/
+dist/
+build/
+__pycache__/
+*.pyc
+
+# ONNX Runtime downloads
+onnxruntime-*/
+*.tgz
+*.tar.gz

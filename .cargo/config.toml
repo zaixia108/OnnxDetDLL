@@ -1,0 +1,15 @@
+# Cargo configuration for Windows builds
+# This helps resolve linker issues on Windows
+
+[target.x86_64-pc-windows-msvc]
+# Increase the number of codegen units to reduce individual object file sizes
+# This helps with the command line length limit on Windows
+# Note: This is only applied if not already set in Cargo.toml profile
+rustflags = ["-C", "link-arg=/INCREMENTAL:NO"]
+
+[target.x86_64-pc-windows-gnu]
+rustflags = []
+
+[build]
+# Use incremental compilation to speed up builds
+incremental = true
