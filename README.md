@@ -20,11 +20,13 @@ This is a Rust translation of the original C++ OnnxDetDLL project.
 
 - [English README](README.md) - This file
 - [中文文档](README_CN.md) - Complete Chinese documentation
+- [**Windows Build Guide**](WINDOWS_BUILD.md) - **Windows系统构建指南 (必读)**
 - [Migration Guide](MIGRATION.md) - Guide for migrating from C++ version
 - [Development Guide](DEVELOPMENT.md) - For contributors and developers
 
 ## 快速链接 Quick Links
 
+- 🪟 [**Windows用户看这里**](WINDOWS_BUILD.md) - Complete Windows build guide
 - 🇨🇳 [查看中文文档](README_CN.md) - Complete documentation in Chinese
 - 📖 [查看迁移指南](MIGRATION.md) - How to migrate from C++ version  
 - 👨‍💻 [开发者指南](DEVELOPMENT.md) - Contributing and development
@@ -42,6 +44,25 @@ This is a Rust translation of the original C++ OnnxDetDLL project.
 - ONNX Runtime库 (与Python包一起打包 / bundled with the Python package)
 
 ## 安装说明 Installation
+
+### Windows用户 For Windows Users
+
+**Windows系统请查看详细的构建指南：[WINDOWS_BUILD.md](WINDOWS_BUILD.md)**
+
+简要步骤 Quick steps:
+```cmd
+# 克隆仓库
+git clone https://github.com/zaixia108/OnnxDetDLL.git
+cd OnnxDetDLL
+
+# 运行Windows构建脚本
+build.bat
+
+# 安装Python包
+pip install target\wheels\*.whl
+```
+
+### Linux/macOS用户 For Linux/macOS Users
 
 ### 快速开始 Quick Start
 

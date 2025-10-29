@@ -35,6 +35,25 @@
 
 ## 快速开始
 
+### Windows用户特别说明 ⚠️
+
+**如果您使用Windows系统，请先查看详细的Windows构建指南：[WINDOWS_BUILD.md](WINDOWS_BUILD.md)**
+
+Windows快速构建步骤：
+```cmd
+# 克隆项目
+git clone https://github.com/zaixia108/OnnxDetDLL.git
+cd OnnxDetDLL
+
+# 运行Windows构建脚本
+build.bat
+
+# 安装Python包
+pip install target\wheels\*.whl
+```
+
+### Linux/macOS用户
+
 ### 1. 安装Rust
 
 如果还没有安装Rust，请访问 https://rustup.rs/ 并按照说明安装。

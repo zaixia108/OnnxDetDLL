@@ -48,11 +48,12 @@
 **文件：**
 - `Cargo.toml` - Rust包配置
 - `pyproject.toml` - Python包配置
-- `build.sh` - 自动化构建脚本
+- `build.sh` - Linux/macOS自动化构建脚本
+- `build.bat` - Windows自动化构建脚本
 
 **功能：**
 - ✅ 自动下载ONNX Runtime
-- ✅ 跨平台支持检测
+- ✅ 跨平台支持 (Windows/Linux/macOS)
 - ✅ Python wheel打包
 - ✅ 依赖自动管理
 
@@ -83,6 +84,12 @@
    - 开发环境设置
    - 代码风格
    - 贡献流程
+
+5. **WINDOWS_BUILD.md** (Windows构建指南)
+   - Windows系统详细构建说明
+   - 常见问题解决
+   - DirectML GPU加速配置
+   - 环境变量设置
 
 ### 5. 示例代码 Example Code
 
