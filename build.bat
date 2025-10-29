@@ -43,11 +43,29 @@ if "%ORT_LIB_LOCATION%"=="" (
 )
 
 REM Build the project
-echo Building Rust library...
+echo Building Rust library in Release mode...
+echo Note: If you encounter linker errors (exit code 1181), try:
+echo   1. cargo clean
+echo   2. Run this script again
+echo   3. Or see WINDOWS_BUILD.md for detailed troubleshooting
+echo.
+
+REM Set environment to help with Windows linking issues
+set CARGO_INCREMENTAL=1
+
 cargo build --release
 
 if %ERRORLEVEL% neq 0 (
+    echo.
+    echo ============================================================
     echo Build failed!
+    echo.
+    echo Common fixes for Windows linker errors:
+    echo 1. Make sure Visual Studio Build Tools are installed
+    echo 2. Try: cargo clean
+    echo 3. Then run build.bat again
+    echo 4. Check WINDOWS_BUILD.md for detailed troubleshooting
+    echo ============================================================
     exit /b 1
 )
 

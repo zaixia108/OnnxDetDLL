@@ -193,7 +193,57 @@ os.add_dll_directory(r"C:\path\to\onnxruntime-win-x64-1.20.1\lib")
 3. 重启命令提示符/PowerShell
 4. 重新运行`cargo build --release`
 
-### 问题3: Python导入错误
+### 问题3: 链接器错误 "exit code: 1181" (命令行过长)
+
+**症状：** 编译时出现 `error: linking with link.exe failed: exit code: 1181`
+
+**原因：** Windows链接器的命令行长度限制。当项目依赖较多时，传递给链接器的参数过长。
+
+**解决方案：**
+
+**方案A - 使用Release模式构建（推荐）：**
+```cmd
+# Release模式会优化并减少符号数量
+cargo build --release
+maturin build --release
+```
+
+**方案B - 使用lld链接器：**
+```cmd
+# 安装lld（更快且处理长命令行更好）
+rustup component add llvm-tools-preview
+
+# 然后构建
+cargo build --release
+```
+
+**方案C - 减少并行编译单元：**
+
+项目已经在`.cargo/config.toml`中配置了优化设置。如果仍有问题，可以手动设置：
+
+```cmd
+set CARGO_BUILD_JOBS=1
+cargo build --release
+```
+
+**方案D - 使用增量编译：**
+```cmd
+# 清理之前的构建
+cargo clean
+
+# 使用增量编译
+set CARGO_INCREMENTAL=1
+cargo build --release
+```
+
+**方案E - 减少依赖（如果问题持续）：**
+
+如果以上方法都不行，可以尝试只构建必要的功能：
+```cmd
+cargo build --release --no-default-features --features "std"
+```
+
+### 问题4: Python导入错误
 
 **症状：** `ImportError: DLL load failed`
 
@@ -208,7 +258,7 @@ pip install --force-reinstall target\wheels\*.whl
 
 3. 检查Python版本是否匹配（必须是64位Python）
 
-### 问题4: 性能问题
+### 问题5: 性能问题
 
 **解决方案：**
 

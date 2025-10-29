@@ -39,6 +39,8 @@
 
 **如果您使用Windows系统，请先查看详细的Windows构建指南：[WINDOWS_BUILD.md](WINDOWS_BUILD.md)**
 
+⚠️ **遇到链接器错误（exit code 1181）？** 快速修复：[WINDOWS_LINKER_FIX.md](WINDOWS_LINKER_FIX.md)
+
 Windows快速构建步骤：
 ```cmd
 # 克隆项目
@@ -47,6 +49,10 @@ cd OnnxDetDLL
 
 # 运行Windows构建脚本
 build.bat
+
+# 如果遇到链接器错误，先清理：
+# cargo clean
+# 然后再次运行 build.bat
 
 # 安装Python包
 pip install target\wheels\*.whl
