@@ -7,6 +7,26 @@
 
 This is a common linker error on Windows, usually caused by command-line length limits.
 
+## 错误：could not compile onnxdet (lib) due to 1 previous error
+
+如果看到这个错误但没有详细信息，需要先获取完整的错误输出。
+
+If you see this error without details, you need to get the full error output first.
+
+### 获取完整错误信息 Get Full Error Details
+
+```cmd
+# 方法1：使用verbose模式
+cargo build --verbose
+
+# 方法2：重定向错误输出
+cargo build 2>&1 | more
+
+# 方法3：保存到文件
+cargo build > build.log 2>&1
+type build.log
+```
+
 ### 快速解决方案 Quick Solutions
 
 #### 方案1: 清理并重新构建（最常用）Clean and Rebuild (Most Common)
@@ -31,6 +51,66 @@ cargo build --release
 #### 方案4: 使用增量编译 Use Incremental Compilation
 ```cmd
 set CARGO_INCREMENTAL=1
+cargo clean
+cargo build --release
+```
+
+#### 方案5: 检查环境配置 Check Environment Configuration
+```cmd
+# 确认ONNX Runtime路径已设置
+echo %ORT_LIB_LOCATION%
+
+# 确认Python路径正确
+where python
+python --version
+
+# 确认Rust版本
+rustc --version
+```
+
+#### 方案6: 详细诊断 Detailed Diagnostics
+```cmd
+# 如果看不到具体错误，使用verbose模式
+cargo build --release --verbose
+
+# 查看完整的编译器输出
+cargo build --release -vv 2>&1 | more
+```
+
+### 常见编译错误 Common Compilation Errors
+
+#### 错误类型1: 缺少ONNX Runtime
+```
+error: failed to run custom build command for `ort-sys`
+```
+**解决方案：**
+```cmd
+# 下载并设置ONNX Runtime
+set ORT_LIB_LOCATION=D:\path\to\onnxruntime-win-x64-1.20.1
+set PATH=%ORT_LIB_LOCATION%\lib;%PATH%
+```
+
+#### 错误类型2: Python库未找到
+```
+error: linking with `link.exe` failed: LNK1181: cannot open input file 'python3.lib'
+```
+**解决方案：**
+```cmd
+# 确保Python在PATH中
+where python
+
+# 如果使用虚拟环境，先激活
+venv\Scripts\activate
+```
+
+#### 错误类型3: 内存不足
+```
+error: could not compile due to previous error
+```
+**解决方案：**
+```cmd
+# 减少并行任务
+set CARGO_BUILD_JOBS=1
 cargo clean
 cargo build --release
 ```

@@ -208,19 +208,16 @@ cargo build --release
 maturin build --release
 ```
 
-**方案B - 使用lld链接器：**
+**方案B - 清理并重建：**
 ```cmd
-# 安装lld（更快且处理长命令行更好）
-rustup component add llvm-tools-preview
+# 清理所有构建产物
+cargo clean
 
-# 然后构建
+# 重新构建
 cargo build --release
 ```
 
 **方案C - 减少并行编译单元：**
-
-项目已经在`.cargo/config.toml`中配置了优化设置。如果仍有问题，可以手动设置：
-
 ```cmd
 set CARGO_BUILD_JOBS=1
 cargo build --release
@@ -236,14 +233,79 @@ set CARGO_INCREMENTAL=1
 cargo build --release
 ```
 
-**方案E - 减少依赖（如果问题持续）：**
+### 问题4: 编译错误 "could not compile onnxdet" (一般性编译错误)
 
-如果以上方法都不行，可以尝试只构建必要的功能：
+**症状：** 出现 `error: could not compile onnxdet (lib) due to 1 previous error` 但看不到详细错误
+
+**解决方案：**
+
+**步骤1 - 获取完整错误信息：**
 ```cmd
-cargo build --release --no-default-features --features "std"
+# 使用verbose模式查看完整错误
+cargo build --verbose
+
+# 或者只显示错误信息
+cargo build 2>&1 | more
 ```
 
-### 问题4: Python导入错误
+**步骤2 - 检查ONNX Runtime配置：**
+```cmd
+# 确保ORT_LIB_LOCATION已设置
+echo %ORT_LIB_LOCATION%
+
+# 如果没有设置，手动设置
+set ORT_LIB_LOCATION=D:\path\to\onnxruntime-win-x64-1.20.1
+```
+
+**步骤3 - 检查依赖是否正确安装：**
+```cmd
+# 更新依赖
+cargo update
+
+# 清理并重新下载
+cargo clean
+cargo fetch
+cargo build --release
+```
+
+**步骤4 - 检查Rust工具链：**
+```cmd
+# 更新Rust到最新版本
+rustup update
+
+# 确认版本
+rustc --version
+cargo --version
+```
+
+**步骤5 - 如果是链接器问题（不显示详细错误）：**
+```cmd
+# 尝试使用更少的codegen单元
+cargo clean
+cargo build --release -j 1
+```
+
+**常见编译错误及解决方法：**
+
+1. **找不到ONNX Runtime**
+   ```
+   Solution: 确保ORT_LIB_LOCATION环境变量已设置
+   ```
+
+2. **Python库链接错误**
+   ```cmd
+   Solution: 确保Python已正确安装且在PATH中
+   python --version
+   ```
+
+3. **内存不足**
+   ```cmd
+   Solution: 减少并行编译任务
+   set CARGO_BUILD_JOBS=1
+   cargo build --release
+   ```
+
+### 问题5: Python导入错误
 
 **症状：** `ImportError: DLL load failed`
 
